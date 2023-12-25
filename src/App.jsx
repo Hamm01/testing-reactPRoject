@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Appcounter from './appCounterClass'
+import Child from './Child'
 
 
 function App() {
@@ -11,7 +12,7 @@ function App() {
   return (
     <>
       {/* <div className="container" onClick={counterCount}>{count}</div> */}
-      <Appcounter />
+      <Child />
     </>
   )
 }
