@@ -1,20 +1,17 @@
-import { useState } from 'react'
-import Appcounter from './appCounterClass'
-import Child from './Child'
+import { useState } from "react"
+import { Child } from "./Child"
 
+export default function App() {
+  const [show, setShow] = useState(true)
 
-function App() {
-  const [count, setCount] = useState(0)
-  function counterCount(){
-    setCount(prevcount => prevcount+1)
-  }
+  const childComponent = show ? <Child /> : null
 
   return (
-    <>
-      {/* <div className="container" onClick={counterCount}>{count}</div> */}
-      <Child />
-    </>
+    <div>
+      <button onClick={() => setShow(currentShow => !currentShow)}>
+        Show/Hide
+      </button>
+      {childComponent}
+    </div>
   )
 }
-
-export default App
