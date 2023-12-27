@@ -1,17 +1,27 @@
-import { useState } from "react"
-import { Child } from "./Child"
+import React from 'react'
 
-export default function App() {
-  const [show, setShow] = useState(true)
 
-  const childComponent = show ? <Child /> : null
-
-  return (
-    <div>
-      <button onClick={() => setShow(currentShow => !currentShow)}>
-        Show/Hide
-      </button>
-      {childComponent}
-    </div>
-  )
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.state ={
+      name: " ",
+    }
+    this.inputref = React.createRef()
+  }
+ componentDidMount(){
+  this.inputref.current.focus()
 }
+  render(){
+   return(
+     <>
+     <label >Name:
+       <input type="text"
+       ref={this.inputref} defaultValue={this.state.name} onChange={e => this.setState({name: this.setState(e.target.value)})}/>
+     </label>
+     </>
+    )
+  }
+}
+
+export default App
