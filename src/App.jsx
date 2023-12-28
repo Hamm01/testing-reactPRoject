@@ -8,12 +8,12 @@ import useFetch from './useFetch'
 // }
 
 const URLS = {
-  USERS: "https://jsonplaceholder.typicode.com/users",
+  USERS: "https://jsonplaceholder.typicode.com/users1",
   POSTS: "https://jsonplaceholder.typicode.com/posts",
   COMMENTS: "https://jsonplaceholder.typicode.com/comments",
 }
 
-// BONUS:
+
 // const OPTIONS = {
 //   method: "POST",
 //   body: JSON.stringify({ name: "Kyle" }),
@@ -26,7 +26,7 @@ function App() {
   const [url, setUrl] = useState(URLS.USERS)
 
   const { data, isLoading, isError } = useFetch(url)
-  // BONUS:
+  
   // const { data, isLoading, isError } = useFetch(url, OPTIONS)
 
   return (
@@ -60,7 +60,7 @@ function App() {
       {isLoading ? (
         <h1>Loading...</h1>
       ) : isError ? (
-        <h1>Error</h1>
+        <h1>Error in url </h1>
       ) : (
         <pre>{JSON.stringify(data, null, 2)}</pre>
       )}
