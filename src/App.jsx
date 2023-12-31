@@ -1,69 +1,27 @@
 import { useState } from "react"
-import useFetch from './useFetch'
-// If the API does not work use these local URLs
-// const URLS = {
-//   USERS: "users.json",
-//   POSTS: "posts.json",
-//   COMMENTS: "comments.json",
-// }
-
-const URLS = {
-  USERS: "https://jsonplaceholder.typicode.com/users1",
-  POSTS: "https://jsonplaceholder.typicode.com/posts",
-  COMMENTS: "https://jsonplaceholder.typicode.com/comments",
-}
-
-
-// const OPTIONS = {
-//   method: "POST",
-//   body: JSON.stringify({ name: "Kyle" }),
-//   headers: {
-//     "Content-type": "application/json",
-//   },
-// }
-
+import "./styles.css"
 function App() {
-  const [url, setUrl] = useState(URLS.USERS)
-
-  const { data, isLoading, isError } = useFetch(url)
   
-  // const { data, isLoading, isError } = useFetch(url, OPTIONS)
 
   return (
     <>
-      <div>
-        <label>
-          <input
-            type="radio"
-            checked={url === URLS.USERS}
-            onChange={() => setUrl(URLS.USERS)}
-          />
-          Users
-        </label>
-        <label>
-          <input
-            type="radio"
-            checked={url === URLS.POSTS}
-            onChange={() => setUrl(URLS.POSTS)}
-          />
-          Posts
-        </label>
-        <label>
-          <input
-            type="radio"
-            checked={url === URLS.COMMENTS}
-            onChange={() => setUrl(URLS.COMMENTS)}
-          />
-          Comments
-        </label>
+       <form className="form">
+      <div className="form-group error">
+        <label className="label" for="email">Email</label>
+        <input className="input" type="email" id="email" value="test@test.com" />
+        <div className="msg">Must end in @hotmail.com</div>
       </div>
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : isError ? (
-        <h1>Error in url </h1>
-      ) : (
-        <pre>{JSON.stringify(data, null, 2)}</pre>
-      )}
+      <div className="form-group">
+        <label className="label" for="password">Password</label>
+        <input
+          className="input"
+          value="Password123!"
+          type="password"
+          id="password"
+        />
+      </div>
+      <button className="btn" type="submit">Submit</button>
+    </form>
     </>
   )
 }
