@@ -1,25 +1,48 @@
-import React from 'react'
+import {useRef, useState} from 'react'
+import {findEmailError,findPasswordError} from './Validator.js'
 
 export default function RefForm() {
-    return (
-        <>
-           <form className="form">
-          <div className="form-group error">
-            <label className="label" htmlFor="email">Email</label>
-            <input className="input" type="email" id="email" defaultValue="test@test.com" />
-            <div className="msg">Must end in @hotmail.com</div>
-          </div>
-          <div className="form-group">
-            <label className="label" htmlFor="password">Password</label>
-            <input
-              className="input"
-              defaultValue="Password123!"
-              type="password"
-              id="password"
-            />
-          </div>
-          <button className="btn" type="submit">Submit</button>
-        </form>
-        </>
-      )
+  const [email,setEmail] = useState("")
+  const inputEmailRef = useRef()
+  const inputPasswordRef = useRef()
+  const [password,setPassword] = useState("")
+  
+  const [emailError,setEmailError] = useState([])
+  const [passwordError,setPasswordError] = useState([])
+  function Submit(e){
+    e.preventDefault()
+    const emailErrorDetails = findEmailError(email)
+    const passwordErrorDetails = findPasswordError(password)
+      
+    setEmailError(emailErrorDetails)
+    setPasswordError(passwordErrorDetails)
+    
+    if(emailErrorDetails.length === 0  && passwordErrorDetails.length  === 0 ){
+          alert("Success in validation")
+      }
+  }
+
+return (
+  <>
+     <form className="form" onSubmit={Submit}>
+    <div className={`form-group ${emailError.length>0 ? 'error' : ''}`}>
+      <label className="label" htmlFor="email">Email</label>
+      <input className="input" type="email" id="email" ref={inputEmailRef}  />
+     {emailError.length>0 && <div className="msg"> {emailError.join(", ")}</div> } 
+    </div>
+    <div className={`form-group ${passwordError.length>0 ? 'error' : ''}`}>
+      <label className="label" htmlFor="password">Password</label>
+      <input
+        className="input"
+        value={password}
+        type="password"
+        id="password"
+        onChange={e => setPassword(e.target.value)} 
+      />
+      {passwordError.length>0 && <div className="msg"> {passwordError.join(", ")}</div> } 
+    </div>
+    <button className="btn" type="submit">Submit</button>
+  </form>
+  </>
+)
 }
