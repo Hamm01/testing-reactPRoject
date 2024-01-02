@@ -2,17 +2,21 @@ import {useRef, useState} from 'react'
 import {findEmailError,findPasswordError} from './Validator.js'
 
 export default function RefForm() {
-  const [email,setEmail] = useState("")
+  
   const inputEmailRef = useRef()
   const inputPasswordRef = useRef()
-  const [password,setPassword] = useState("")
+  
   
   const [emailError,setEmailError] = useState([])
   const [passwordError,setPasswordError] = useState([])
+  const [isAfterFirstSubmit, setisAfterFirstSubmit] = useState(false)
+
+  
   function Submit(e){
     e.preventDefault()
-    const emailErrorDetails = findEmailError(email)
-    const passwordErrorDetails = findPasswordError(password)
+    setisAfterFirstSubmit(true)
+    const emailErrorDetails = findEmailError(inputEmailRef.current.value)
+    const passwordErrorDetails = findPasswordError(inputPasswordRef.current.value)
       
     setEmailError(emailErrorDetails)
     setPasswordError(passwordErrorDetails)
@@ -21,23 +25,25 @@ export default function RefForm() {
           alert("Success in validation")
       }
   }
+    
+    
 
 return (
   <>
      <form className="form" onSubmit={Submit}>
     <div className={`form-group ${emailError.length>0 ? 'error' : ''}`}>
       <label className="label" htmlFor="email">Email</label>
-      <input className="input" type="email" id="email" ref={inputEmailRef}  />
+      <input className="input" type="email" id="email" ref={inputEmailRef} onChange={isAfterFirstSubmit && ((e) => setEmailError(findEmailError(e.target.value)))} />
      {emailError.length>0 && <div className="msg"> {emailError.join(", ")}</div> } 
     </div>
     <div className={`form-group ${passwordError.length>0 ? 'error' : ''}`}>
       <label className="label" htmlFor="password">Password</label>
       <input
         className="input"
-        value={password}
         type="password"
         id="password"
-        onChange={e => setPassword(e.target.value)} 
+        ref={inputPasswordRef}
+        onChange={isAfterFirstSubmit && ((e) => setPasswordError(findPasswordError(e.target.value)))}
       />
       {passwordError.length>0 && <div className="msg"> {passwordError.join(", ")}</div> } 
     </div>

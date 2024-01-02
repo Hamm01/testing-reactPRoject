@@ -6,8 +6,10 @@ export default function StateForm() {
         
         const [emailError,setEmailError] = useState([])
         const [passwordError,setPasswordError] = useState([])
+        
         function Submit(e){
           e.preventDefault()
+          
           const emailErrorDetails = findEmailError(email)
           const passwordErrorDetails = findPasswordError(password)
             
