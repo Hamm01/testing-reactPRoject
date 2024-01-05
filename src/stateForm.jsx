@@ -3,15 +3,15 @@
  it will show errors as soon the input will change. and from previous we removed the emailError to normal variable not the state, because it will render each time the component when the input got changed.
 */
 
-import {useState} from 'react'
+import {useState ,useMemo} from 'react'
 import {findEmailError,findPasswordError} from './Validator.js'
 export default function StateForm() {
         const [email,setEmail] = useState("")
         const [password,setPassword] = useState("")
         const [isFirstSubmit, setIsfirstSubmit] = useState(false)
         
-        const emailError = isFirstSubmit  ?  findEmailError(email) : []
-        const passwordError = isFirstSubmit ?  findPasswordError(password) : []
+        const emailError = useMemo(() => { return isFirstSubmit  ?  findEmailError(email) : []}, [email, isFirstSubmit] )
+        const passwordError = useMemo(() => { return isFirstSubmit ?  findPasswordError(password) : []}, [password, isFirstSubmit] )
          
 
         function Submit(e){
