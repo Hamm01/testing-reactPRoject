@@ -33,7 +33,7 @@ return (
      <form className="form" onSubmit={Submit}>
     <div className={`form-group ${emailError.length>0 ? 'error' : ''}`}>
       <label className="label" htmlFor="email">Email</label>
-      <input className="input" type="email" id="email" ref={inputEmailRef} onChange={isAfterFirstSubmit && ((e) => setEmailError(findEmailError(e.target.value)))} />
+      <input className="input" type="email" id="email" ref={inputEmailRef} onChange={isAfterFirstSubmit ? ((e) => setEmailError(findEmailError(e.target.value))) : undefined } />
      {emailError.length>0 && <div className="msg"> {emailError.join(", ")}</div> } 
     </div>
     <div className={`form-group ${passwordError.length>0 ? 'error' : ''}`}>
@@ -43,7 +43,7 @@ return (
         type="password"
         id="password"
         ref={inputPasswordRef}
-        onChange={isAfterFirstSubmit && ((e) => setPasswordError(findPasswordError(e.target.value)))}
+        onChange={isAfterFirstSubmit ? ((e) => setPasswordError(findPasswordError(e.target.value))) :undefined}
       />
       {passwordError.length>0 && <div className="msg"> {passwordError.join(", ")}</div> } 
     </div>
