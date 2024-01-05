@@ -1,21 +1,24 @@
+/*
+ This below form changed in this commit for validate the form after first submission
+ it will show errors as soon the input will change. and from previous we removed the emailError to normal variable not the state, because it will render each time the component when the input got changed.
+*/
+
 import {useState} from 'react'
 import {findEmailError,findPasswordError} from './Validator.js'
 export default function StateForm() {
         const [email,setEmail] = useState("")
         const [password,setPassword] = useState("")
+        const [isFirstSubmit, setIsfirstSubmit] = useState(false)
         
-        const [emailError,setEmailError] = useState([])
-        const [passwordError,setPasswordError] = useState([])
-        
+        const emailError = isFirstSubmit  ?  findEmailError(email) : []
+        const passwordError = isFirstSubmit ?  findPasswordError(password) : []
+         
+
         function Submit(e){
           e.preventDefault()
-          
+          setIsfirstSubmit(true)
           const emailErrorDetails = findEmailError(email)
           const passwordErrorDetails = findPasswordError(password)
-            
-          setEmailError(emailErrorDetails)
-          setPasswordError(passwordErrorDetails)
-          
           if(emailErrorDetails.length === 0  && passwordErrorDetails.length  === 0 ){
                 alert("Success in validation")
             }
