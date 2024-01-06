@@ -1,7 +1,7 @@
 import { FormGroup } from "./FormGroup"
 import ReactSelect from "react-select"
-import { useRef, useState } from "react"
 import "./styles.css"
+import {useForm , useController} from 'react-hook-form'
 import { checkCountry, checkEmail, checkPassword } from "./validators"
 
 const COUNTRY_OPTIONS = [
@@ -11,44 +11,37 @@ const COUNTRY_OPTIONS = [
 ]
 
 function App() {
+  const {register, handleSubmit , formState :{errors}, control } = useForm()
+  const { field: countryField} = useController({
+    name: "country",
+   control,
+    rules: {
+      required: {value: true, message:"Required"}
+   }
+})
 
-  const emailRef = useRef()
-  const passwordRef = useRef()
-  const countryRef = useRef()
-
-  const [emailErrors, setEmailErrors] = useState([])
-  const [passwordErrors, setPasswordErrors] = useState([])
-  const [countryErrors, setCountryErrors] = useState([])
-
-  function onSubmit(e) {
-    e.preventDefault()
-
-    const emailResults = checkEmail(emailRef.current.value)
-    const passwordResults = checkPassword(passwordRef.current.value)
-    const countryResults = checkCountry(countryRef.current.getValue()[0])
-
-    setEmailErrors(emailResults)
-    setPasswordErrors(passwordResults)
-    setCountryErrors(countryResults)
-
-    if (
-      emailResults.length === 0 &&
-      passwordResults.length === 0 &&
-      countryResults.length === 0
-    ) {
+  function onSubmit(data) {
+  
+   console.log(data)
       alert("Success")
-    }
   }
 
   return (
-    <form onSubmit={onSubmit} className="form">
-      <FormGroup errors={emailErrors}>
+    <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <FormGroup errorMessage={errors?.email?.message}>
         <label className="label" htmlFor="email">
           Email
         </label>
-        <input className="input" type="email" id="email" ref={emailRef} />
+        <input className="input" type="email" id="email" {...register("email", {
+          required: true,
+          validate: value => {
+           if(!value.endsWith("hotmail.com")){
+            return "Must be end with hotmail.com"
+          }
+          },
+          })} />
       </FormGroup>
-      <FormGroup errors={passwordErrors}>
+      <FormGroup errorMessage={errors?.password?.message}>
         <label className="label" htmlFor="password">
           Password
         </label>
@@ -56,10 +49,30 @@ function App() {
           className="input"
           type="password"
           id="password"
-          ref={passwordRef}
+          {...register("password" ,{
+           required : {value:true, message:"Required"},
+           minLength: {value:10, message: "Must be at least 10 characters"},
+          validate: {
+            hasLowerCase : value => {
+              if(!value.match(/[a-z]/)){
+               return "Must include at least one lowercase letter"
+              }
+            },
+            hasUpperCase : value => {
+              if(!value.match(/[A-Z]/)){
+               return "Must include at least one uppercase letter"
+              }
+            },
+            hasNumber : value => {
+              if(!value.match(/[0-9]/)){
+               return "Must include at least one number"
+              }
+            }
+          }
+          })}
         />
       </FormGroup>
-      <FormGroup errors={countryErrors}>
+      <FormGroup errorMessage={errors?.country?.message}>
         <label className="label" htmlFor="country">
           Country
         </label>
@@ -67,7 +80,7 @@ function App() {
           isClearable
           classNamePrefix="react-select"
           id="country"
-          ref={countryRef}
+          {...countryField}
           options={COUNTRY_OPTIONS}
         />
       </FormGroup>

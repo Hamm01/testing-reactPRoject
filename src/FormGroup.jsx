@@ -1,8 +1,8 @@
-export function FormGroup({ errors = [], children }) {
+export function FormGroup({ errorMessage = "", children }) {
   return (
-    <div className={`form-group ${errors.length > 0 ? "error" : ""}`}>
+    <div className={`form-group ${errorMessage.length > 0 ? "error" : ""}`}>
       {children}
-      {errors.length > 0 && <div className="msg">{errors.join(", ")}</div>}
+      {errorMessage.length > 0 && <div className="msg">{errorMessage}</div>}
     </div>
   )
 }
