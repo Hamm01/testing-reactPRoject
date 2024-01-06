@@ -2,7 +2,6 @@ import { FormGroup } from "./FormGroup"
 import ReactSelect from "react-select"
 import "./styles.css"
 import {useForm , useController} from 'react-hook-form'
-import { checkCountry, checkEmail, checkPassword } from "./validators"
 
 const COUNTRY_OPTIONS = [
   { label: "United States", value: "US" },
