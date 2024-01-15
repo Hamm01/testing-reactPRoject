@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 /*
  Task is given that we have filtered items which work on input value comes from the input on page
  but here we not filtered items as state, which will called as derived state from items
@@ -7,6 +7,7 @@ import { useState } from "react"
  this will produce the bug. when that filtered items get changed because of items state. 
  so we use the filteredItems as variable, which will update on each render of page
  we can more optimize the filterd Items state using the useMEmo hook
+ this hook will only be used when the filtered list will take time to load
 */
 
 
@@ -14,7 +15,9 @@ function App(){
 const [items,setItems] = useState([1,2,3,4,5])
 const [inputValue, setInputValue] = useState("")
 
-const filteredItems = inputValue === "" ? items : items.filter(item => item < inputValue) 
+const filteredItems = useMemo(() => {
+ return inputValue === "" ? items : items.filter(item => item < inputValue) 
+},[inputValue,items])
 
 
 
