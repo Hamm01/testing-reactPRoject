@@ -1,39 +1,72 @@
-import { useMemo, useState } from "react"
-/*
- Task is given that we have filtered items which work on input value comes from the input on page
- but here we not filtered items as state, which will called as derived state from items
- like if we do [filterItems, setFilterItems] = useState(items)
- this is the pointed bug because filter Items are made up using derived state.. 
- this will produce the bug. when that filtered items get changed because of items state. 
- so we use the filteredItems as variable, which will update on each render of page
- we can more optimize the filterd Items state using the useMEmo hook
- this hook will only be used when the filtered list will take time to load
-*/
+import { useState } from "react"
+import "./styles.css"
+import { TodoItem } from "./TodoItem"
+// Instructions
 
+// 1. The state for our todos should be stored in local storage so when we come back to the page at a later time all our data is still there
+// 2. Convert all the state in the application to use `useReducer` and `Context` to pass the state between components
+// 3. Add the ability to delete existing todos
+// 4. Add a form that lets you filter todos by their name and hide completed todos
 
-function App(){
-const [items,setItems] = useState([1,2,3,4,5])
-const [inputValue, setInputValue] = useState("")
+function App() {
+  const [newTodoName, setNewTodoName] = useState("")
+  const [todos, setTodos] = useState([])
 
-const filteredItems = useMemo(() => {
- return inputValue === "" ? items : items.filter(item => item < inputValue) 
-},[inputValue,items])
+  function addNewTodo() {
+    if (newTodoName === "") return
 
+    setTodos(currentTodos => {
+      return [
+        ...currentTodos,
+        { name: newTodoName, completed: false, id: crypto.randomUUID() },
+      ]
+    })
+    setNewTodoName("")
+  }
 
+  function toggleTodo(todoId, completed) {
+    setTodos(currentTodos => {
+      return currentTodos.map(todo => {
+        if (todo.id === todoId) return { ...todo, completed }
+
+        return todo
+      })
+    })
+  }
+
+  function deleteTodo(todoId) {
+    setTodos(currentTodos => {
+      return currentTodos.filter(todo => todo.id !== todoId)
+    })
+  }
 
   return (
     <>
-     <label htmlFor="lessThan">Show less then</label>
-      <input type="text" id="number" onChange={e => setInputValue(e.target.value)} value={inputValue} />
-      <br />
-      <br />
-      <br />
-      <div>{filteredItems.join(", ")}</div>
-      <br />
-      <button onClick={() => setItems(i=> [...i, 2.5])}>Add 2.5 to list</button>
+      <ul id="list">
+        {todos.map(todo => {
+          return (
+            <TodoItem
+              key={todo.id}
+              {...todo}
+              toggleTodo={toggleTodo}
+              deleteTodo={deleteTodo}
+            />
+          )
+        })}
+      </ul>
+
+      <div id="new-todo-form">
+        <label htmlFor="todo-input">New Todo</label>
+        <input
+          type="text"
+          id="todo-input"
+          value={newTodoName}
+          onChange={e => setNewTodoName(e.target.value)}
+        />
+        <button onClick={addNewTodo}>Add Todo</button>
+      </div>
     </>
+  )
+}
 
-    )
-
-  }
 export default App
