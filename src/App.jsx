@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import "./styles.css"
 import { TodoItem } from "./TodoItem"
 // Instructions
@@ -8,10 +8,20 @@ import { TodoItem } from "./TodoItem"
 // 3. Add the ability to delete existing todos
 // 4. Add a form that lets you filter todos by their name and hide completed todos
 
+ const LOCAL_STORAGE_KEY = "TODOS_KEY"
+
 function App() {
   const [newTodoName, setNewTodoName] = useState("")
-  const [todos, setTodos] = useState([])
-
+  const [todos, setTodos] = useState(() => {
+  const value = localStorage.getItem(LOCAL_STORAGE_KEY)
+  if(value === null) return []
+  return JSON.parse(value)
+  })
+ 
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
+  },[todos])
+  
   function addNewTodo() {
     if (newTodoName === "") return
 
