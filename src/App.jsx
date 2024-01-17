@@ -32,6 +32,14 @@ function reducer(todos, {type, payload}){
       }
       return todo
       })
+    case ACTIONS.UPDATE : 
+      return todos.map((todo) => {
+        if(todo.id === payload.id){
+          return { ...todo, name: payload.name}
+        }
+        return todo
+      })
+     return todos.map()
     case ACTIONS.DELETE : 
       return todos.filter(todo => todo.id != payload.id)
     default :
@@ -72,6 +80,9 @@ function App() {
     dispatch({type: ACTIONS.TOGGLE, payload:{id: todoId,completed }})
   
   }
+  function updateTodoName(id, name){
+    dispatch({type: ACTIONS.UPDATE, payload:{id, name}})
+  }
 
   function deleteTodo(todoId) {
     dispatch({type:ACTIONS.DELETE , payload: { id: todoId}})
@@ -83,7 +94,9 @@ function App() {
       {todos : filteredTodos,
       addNewTodo,
       toggleTodo,
-      deleteTodo,}
+      deleteTodo,
+      updateTodoName,
+    }
     }>
       <TodoFilterForm 
       name={filterName} 
