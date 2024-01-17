@@ -1,7 +1,7 @@
-import { useEffect, useReducer, useState } from "react"
+import { createContext, useEffect, useReducer, useState } from "react"
 import "./styles.css"
-import { TodoItem } from "./TodoItem"
 import NewTodoForm from './NewTodoForm'
+import { TodoList } from "./TodoList"
 // Instructions
 
 // 1. The state for our todos should be stored in local storage so when we come back to the page at a later time all our data is still there
@@ -37,6 +37,7 @@ function reducer(todos, {type, payload}){
      throw new Error(`No action found for ${type}.`)
   }
 }
+export const TodoContext = createContext()
 
 function App() {
  
@@ -68,22 +69,16 @@ function App() {
   }
 
   return (
-    <>
-      <ul id="list">
-        {todos.map(todo => {
-          return (
-            <TodoItem
-              key={todo.id}
-              {...todo}
-              toggleTodo={toggleTodo}
-              deleteTodo={deleteTodo}
-            />
-          )
-        })}
-      </ul>
+    <TodoContext.Provider value={
+      {todos,
+      addNewTodo,
+      toggleTodo,
+      deleteTodo,}
+    }>
+      <TodoList />
 
-      <NewTodoForm addNewTodo={addNewTodo} />
-    </>
+      <NewTodoForm />
+    </TodoContext.Provider>
   )
 }
 
