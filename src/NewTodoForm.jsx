@@ -9,6 +9,7 @@ function NewTodoForm(){
         return 
       
         addNewTodo(nameRef.current.value)
+        nameRef.current.value = ""
   }
 
  return (

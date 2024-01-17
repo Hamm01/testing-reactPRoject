@@ -2,6 +2,7 @@ import { createContext, useEffect, useReducer, useState } from "react"
 import "./styles.css"
 import NewTodoForm from './NewTodoForm'
 import { TodoList } from "./TodoList"
+import { TodoFilterForm } from "./TodoFilterForm"
 // Instructions
 
 // 1. The state for our todos should be stored in local storage so when we come back to the page at a later time all our data is still there
@@ -40,13 +41,22 @@ function reducer(todos, {type, payload}){
 export const TodoContext = createContext()
 
 function App() {
- 
+  const [filterName, setFilterName] = useState("")
+  const [hideCompletedFilter, setHideCompletedFilter] = useState(false)
   const [todos, dispatch] = useReducer(reducer,[],initialValue => {
   const value = localStorage.getItem(LOCAL_STORAGE_KEY)
   if(value === null) return initialValue
   return JSON.parse(value)
   })
  
+   const filteredTodos = todos.filter((todo) =>{
+    if(hideCompletedFilter && todo.completed) {
+     return false
+    }
+   return todo.name.includes(filterName)
+  }
+   )
+
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos))
   },[todos])
@@ -70,11 +80,17 @@ function App() {
 
   return (
     <TodoContext.Provider value={
-      {todos,
+      {todos : filteredTodos,
       addNewTodo,
       toggleTodo,
       deleteTodo,}
     }>
+      <TodoFilterForm 
+      name={filterName} 
+      setName={setFilterName}
+      hideCompleted={hideCompletedFilter}
+      setHideCompleted={setHideCompletedFilter}
+        />
       <TodoList />
 
       <NewTodoForm />
