@@ -1,6 +1,9 @@
-
+import Navbar from '../Navbar'
 export default function Store() {
   return (
-    <div>Store</div>
+    <>
+      <Navbar />
+      <div>Store</div>
+    </>
   )
 }
