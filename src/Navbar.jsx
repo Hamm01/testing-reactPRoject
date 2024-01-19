@@ -16,12 +16,6 @@ export default function Navbar() {
       <li>
         <Link to="/team">Teams</Link>
       </li>
-      <li>
-        <Link to="/team/himanish">Teams - himanish</Link>
-      </li>
-      <li>
-        <Link to="/team/maruti">Teams - Maruti</Link>
-      </li>
     </ul>
   )
 }

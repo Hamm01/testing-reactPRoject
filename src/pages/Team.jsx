@@ -1,3 +1,6 @@
+import { useOutletContext } from 'react-router-dom'
+
 export default function Team() {
-  return <div>Team</div>
+  const value = useOutletContext()
+  return <div>Team - {value}</div>
 }
