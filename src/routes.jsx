@@ -13,6 +13,7 @@ import TeamNav from './TeamNav'
 export const Router = createBrowserRouter([
   {
     element: <NavOutlet />,
+    errorElement: <h1>Error in component</h1>,
     children: [
       { path: '/', element: <Home /> },
       { path: '/store', element: <Store /> },
