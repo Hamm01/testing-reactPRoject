@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom'
+import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
 
 export function RootLayout() {
   return (
@@ -17,6 +17,7 @@ export function RootLayout() {
           </li>
         </ul>
       </nav>
+      <ScrollRestoration />
       <div className="container">
         <Outlet />
       </div>
