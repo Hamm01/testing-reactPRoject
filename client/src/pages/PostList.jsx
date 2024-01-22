@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Link, useLoaderData } from 'react-router-dom'
 import { getPosts } from '../api/posts'
+import PostCard from '../component/postCard'
 function PostList() {
   const posts = useLoaderData()
   return (
@@ -8,19 +9,7 @@ function PostList() {
       <h1 className="page-title">Posts</h1>
       <div className="card-grid">
         {posts.map(post => {
-          return (
-            <div className="card" key={post.id}>
-              <div className="card-header">{post.title}</div>
-              <div className="card-body">
-                <div className="card-preview-text">{post.body}</div>
-              </div>
-              <div className="card-footer">
-                <Link className="btn" to={`/posts/${post.id}`}>
-                  View
-                </Link>
-              </div>
-            </div>
-          )
+          return <PostCard key={post.id} {...post} />
         })}
       </div>
     </>
