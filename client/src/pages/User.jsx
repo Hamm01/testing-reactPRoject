@@ -4,8 +4,8 @@ function User() {
   const user = useLoaderData()
   return (
     <>
-      <h1 class="page-title">{user.name}</h1>
-      <div class="page-subtitle">{user.email}</div>
+      <h1 className="page-title">{user.name}</h1>
+      <div className="page-subtitle">{user.email}</div>
       <div>
         <b>Company:</b> {user.company.name}
       </div>

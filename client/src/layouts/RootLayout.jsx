@@ -1,6 +1,14 @@
-import { Link, Outlet, ScrollRestoration } from 'react-router-dom'
+import {
+  Link,
+  Outlet,
+  ScrollRestoration,
+  useNavigation
+} from 'react-router-dom'
+// The loading spinner is working when this routeLayout is loading in start, the state is loading otherwise when network request goes during that state until the data is fetched the state will be in loading state otherwise it will be in idle state. so we can use this state by useNavigation hook
 
 export function RootLayout() {
+  const { state } = useNavigation()
+  const isLoading = state === 'loading'
   return (
     <>
       <nav className="top-nav">
@@ -18,7 +26,8 @@ export function RootLayout() {
         </ul>
       </nav>
       <ScrollRestoration />
-      <div className="container">
+      {isLoading && <div className="loading-spinner" />}
+      <div className={`container ${isLoading ? 'loading' : ''} `}>
         <Outlet />
       </div>
     </>
