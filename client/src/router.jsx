@@ -1,4 +1,4 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom'
+import { Navigate, createBrowserRouter, useRouteError } from 'react-router-dom'
 import { postListRoute } from './pages/PostList'
 import { userListRoute } from './pages/UserList'
 import { todoListRoute } from './pages/TodoList'
@@ -6,17 +6,15 @@ import { postRoute } from './pages/post'
 import { userRoute } from './pages/User'
 import { RootLayout } from './layouts/RootLayout'
 
-// 1. path :"*" route added, this will provide any other route error of 404
-// 2 . errorElement added specificly in children of rootLayout because any axios error or
-// error in component will lead to show message Error.. the root layout , nav bar will be loaded and our error will be
-// displayed below
+// ErrorPage function added for generic error message when in production and
+// to see the error message in detail when in development with error stack
 export const Router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
       {
-        errorElement: <h1>Error</h1>,
+        errorElement: <ErrorPage />,
         children: [
           { index: true, element: <Navigate to="/posts" /> },
           {
@@ -43,3 +41,19 @@ export const Router = createBrowserRouter([
     ]
   }
 ])
+
+function ErrorPage() {
+  const error = useRouteError()
+
+  return (
+    <>
+      <h1>Error - Something went Wrong</h1>
+      {import.meta.env.MODE !== 'production' && (
+        <>
+          <pre>{error.message}</pre>
+          <pre>{error.stack}</pre>
+        </>
+      )}
+    </>
+  )
+}
