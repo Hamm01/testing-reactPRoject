@@ -1,14 +1,20 @@
-import { redirect, useLoaderData } from 'react-router-dom'
+import { redirect, useLoaderData, useNavigation } from 'react-router-dom'
 import { getUsers } from '../api/users'
 import { PostForm } from '../component/PostForm'
 import { getPost, updatePost } from '../api/posts'
 
 function EditPost() {
   const { users, post } = useLoaderData()
+  const { state } = useNavigation()
+  const isSubmitting = state === 'submitting'
   return (
     <>
       <h1 className="page-title">Edit Post</h1>
-      <PostForm users={users} defaultValues={post} />
+      <PostForm
+        users={users}
+        isSubmitting={isSubmitting}
+        defaultValues={post}
+      />
     </>
   )
 }
