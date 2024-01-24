@@ -10,3 +10,6 @@ export function getPost(postId, options) {
 export function createPost(data, options) {
   return baseApi.post('posts', data, options).then(res => res.data)
 }
+export function updatePost(postId, data, options) {
+  return baseApi.put(`posts/${postId}`, data, options).then(res => res.data)
+}

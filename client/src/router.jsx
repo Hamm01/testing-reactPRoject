@@ -5,6 +5,7 @@ import { todoListRoute } from './pages/TodoList'
 import { postRoute } from './pages/post'
 import { userRoute } from './pages/User'
 import { newPostRoute } from './pages/NewPost'
+import { editPostRoute } from './pages/EditPost'
 import { RootLayout } from './layouts/RootLayout'
 
 // ErrorPage function added for generic error message when in production and
@@ -25,7 +26,13 @@ export const Router = createBrowserRouter([
                 index: true,
                 ...postListRoute
               },
-              { path: ':postId', ...postRoute },
+              {
+                path: ':postId',
+                children: [
+                  { index: true, ...postRoute },
+                  { path: 'edit', ...editPostRoute }
+                ]
+              },
               { path: 'new', ...newPostRoute }
             ]
           },
