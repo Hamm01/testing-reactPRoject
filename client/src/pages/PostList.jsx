@@ -6,7 +6,14 @@ function PostList() {
   const posts = useLoaderData()
   return (
     <>
-      <h1 className="page-title">Posts</h1>
+      <h1 className="page-title">
+        Posts
+        <div className="title-btns">
+          <Link className="btn btn-outline" to="new">
+            New
+          </Link>
+        </div>
+      </h1>
       <div className="card-grid">
         {posts.map(post => {
           return <PostCard key={post.id} {...post} />
