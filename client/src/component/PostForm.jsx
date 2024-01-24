@@ -1,11 +1,16 @@
 import { Form, Link } from 'react-router-dom'
 import { FormGroup } from './FormGroup'
 
-export function PostForm({ users, isSubmitting, defaultValues = {} }) {
+export function PostForm({
+  users,
+  isSubmitting,
+  errors = {},
+  defaultValues = {}
+}) {
   return (
     <Form method="post" className="form">
       <div className="form-row">
-        <FormGroup>
+        <FormGroup errorMessage={errors.title}>
           <label htmlFor="title">Title</label>
           <input
             type="text"
@@ -15,7 +20,7 @@ export function PostForm({ users, isSubmitting, defaultValues = {} }) {
           />
           {/* <div className="error-message">Required</div> */}
         </FormGroup>
-        <FormGroup>
+        <FormGroup errorMessage={errors.userId}>
           <label htmlFor="userId">Author</label>
           <select name="userId" id="userId" defaultValue={defaultValues.userId}>
             {users.map(user => (
@@ -27,7 +32,7 @@ export function PostForm({ users, isSubmitting, defaultValues = {} }) {
         </FormGroup>
       </div>
       <div className="form-row">
-        <FormGroup>
+        <FormGroup errorMessage={errors.body}>
           <label htmlFor="body">Body</label>
           <textarea
             name="body"
